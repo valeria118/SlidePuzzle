@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingVertical="8dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0" />
+
+    <!-- Lab item 18 — "Форматирование текста. Добавление текста, выбор цвета" -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="6dp">
+
+        <ImageButton
+            android:id="@+id/btnColor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Цвет текста"
+            android:src="@drawable/ic_color_swatch" />
+
+        <ToggleButton
+            android:id="@+id/btnBold"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textOff="B"
+            android:textOn="B"
+            android:textStyle="bold"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/btnAttachVideo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Прикрепить видео"
+            android:src="@drawable/ic_videocam" />
+
+        <EditText
+            android:id="@+id/editMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_chat_input"
+            android:hint="Сообщение..."
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="4"
+            android:padding="10dp" />
+
+        <ImageButton
+            android:id="@+id/btnSend"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Отправить"
+            android:src="@drawable/ic_send" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lab item 11 — "Главное меню" (Options Menu), inflated into the Toolbar. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_clear_chat"
+        android:title="Очистить чат"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_toggle_sound"
+        android:title="Звук уведомлений"
+        android:checkable="true"
+        android:checked="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_help"
+        android:title="Справка"
+        app:showAsAction="never" />
+</menu>

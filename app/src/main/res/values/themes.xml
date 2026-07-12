@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Lab item 10 — "Темы и стили. Настройка темы приложения" -->
+    <style name="Theme._1234567889" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Dedicated AppCompat/Material theme for the classic chat Activity (lab items 11/12) -->
+    <style name="Theme.Chat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorPrimaryDark">@color/brand_primary_dark</item>
+        <item name="colorSecondary">@color/brand_secondary</item>
+        <item name="android:statusBarColor">@color/brand_primary_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

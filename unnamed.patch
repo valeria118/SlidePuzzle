@@ -1,0 +1,886 @@
+Index: app/src/main/java/com/example/a1234567889/ui/screens/AuthScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/screens/AuthScreen.kt b/app/src/main/java/com/example/a1234567889/ui/screens/AuthScreen.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/screens/AuthScreen.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/screens/AuthScreen.kt	(date 1783695413338)
+@@ -94,44 +94,32 @@
+                 isValidEmail(email) && isValidPassword(password) && isValidNickname(nickname)
+     }
+ 
+-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+-        val isSmallHeight = maxHeight < 600.dp
+-        val isVerySmallHeight = maxHeight < 500.dp
+-
+-        Column(
+-            modifier = Modifier
+-                .fillMaxSize()
+-                .padding(if (isSmallHeight) 16.dp else 32.dp)
+-                .verticalScroll(rememberScrollState()),
+-            horizontalAlignment = Alignment.CenterHorizontally,
+-            verticalArrangement = if (isSmallHeight) Arrangement.Top else Arrangement.Center
+-        ) {
+-            // Benefits Section - Hide if very small height to prioritize auth fields
+-            if (!isVerySmallHeight) {
+-                Card(
+-                    modifier = Modifier
+-                        .fillMaxWidth()
+-                        .padding(bottom = if (isSmallHeight) 16.dp else 32.dp),
+-                    colors = CardDefaults.cardColors(
+-                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+-                            alpha = 0.3f
+-                        )
+-                    )
+-                ) {
+-                    Column(modifier = Modifier.padding(16.dp)) {
+-                        Text(
+-                            "Зачем нужен аккаунт?",
+-                            style = MaterialTheme.typography.titleMedium,
+-                            fontWeight = FontWeight.Bold,
+-                            color = MaterialTheme.colorScheme.primary
+-                        )
+-                        Spacer(Modifier.height(8.dp))
+-                        BenefitRow(Icons.Default.CloudSync, "Сохранение прогресса на всех устройствах")
+-                        BenefitRow(Icons.Default.EmojiEvents, "Участие в мировых рейтингах и турнирах")
+-                        BenefitRow(Icons.Default.People, "Игра с друзьями и обмен рекордами")
+-                    }
+-                }
+-            }
++    Column(
++        modifier = Modifier
++            .fillMaxSize()
++            .padding(32.dp)
++            .verticalScroll(rememberScrollState()),
++        horizontalAlignment = Alignment.CenterHorizontally,
++        verticalArrangement = Arrangement.Center
++    ) {
++        // Benefits Section
++        Card(
++            modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp),
++            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f))
++        ) {
++            Column(modifier = Modifier.padding(16.dp)) {
++                Text(
++                    "Зачем нужен аккаунт?", 
++                    style = MaterialTheme.typography.titleMedium, 
++                    fontWeight = FontWeight.Bold,
++                    color = MaterialTheme.colorScheme.primary
++                )
++                Spacer(Modifier.height(8.dp))
++                BenefitRow(Icons.Default.CloudSync, "Сохранение прогресса на всех устройствах")
++                BenefitRow(Icons.Default.EmojiEvents, "Участие в мировых рейтингах и турнирах")
++                BenefitRow(Icons.Default.People, "Игра с друзьями и обмен рекордами")
++            }
++        }
+ 
+         Text(
+             text = if (isLoginMode) stringResource(R.string.login) else stringResource(R.string.register),
+@@ -247,27 +235,26 @@
+             )
+         }
+ 
+-            TextButton(
+-                onClick = onGuest,
+-                modifier = Modifier.padding(top = 16.dp)
+-            ) {
+-                Icon(Icons.Default.NoAccounts, null, modifier = Modifier.size(18.dp))
+-                Spacer(Modifier.width(8.dp))
+-                Text(stringResource(R.string.guest), maxLines = 1, softWrap = false)
+-            }
+-        }
++        TextButton(
++            onClick = onGuest,
++            modifier = Modifier.padding(top = 16.dp)
++        ) {
++            Icon(Icons.Default.NoAccounts, null, modifier = Modifier.size(18.dp))
++            Spacer(Modifier.width(8.dp))
++            Text(stringResource(R.string.guest), maxLines = 1, softWrap = false)
++        }
++    }
+ 
+-        // Forgot password dialog
+-        if (showForgotDialog) {
+-            ForgotPasswordDialog(
+-                initialEmail = email,
+-                onSend = { enteredEmail: String ->
+-                    val result = onForgotPassword?.invoke(enteredEmail) ?: ForgotPasswordResult.EmailSent
+-                    result
+-                },
+-                onDismiss = { showForgotDialog = false }
+-            )
+-        }
++    // Forgot password dialog
++    if (showForgotDialog) {
++        ForgotPasswordDialog(
++            initialEmail = email,
++            onSend = { enteredEmail ->
++                val result = onForgotPassword?.invoke(enteredEmail) ?: ForgotPasswordResult.EmailSent
++                result
++            },
++            onDismiss = { showForgotDialog = false }
++        )
+     }
+ }
+ 
+Index: app/src/main/java/com/example/a1234567889/ui/screens/GalleryScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/screens/GalleryScreen.kt b/app/src/main/java/com/example/a1234567889/ui/screens/GalleryScreen.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/screens/GalleryScreen.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/screens/GalleryScreen.kt	(date 1783695413335)
+@@ -120,7 +120,7 @@
+ 
+             if (selectedTab == 0) {
+                 LazyVerticalGrid(
+-                    columns = GridCells.Adaptive(minSize = 150.dp),
++                    columns = GridCells.Fixed(2),
+                     modifier = Modifier.fillMaxSize(),
+                     contentPadding = PaddingValues(16.dp),
+                     horizontalArrangement = Arrangement.spacedBy(16.dp),
+@@ -132,7 +132,7 @@
+                 }
+             } else {
+                 LazyVerticalGrid(
+-                    columns = GridCells.Adaptive(minSize = 150.dp),
++                    columns = GridCells.Fixed(2),
+                     modifier = Modifier.fillMaxSize(),
+                     contentPadding = PaddingValues(16.dp),
+                     horizontalArrangement = Arrangement.spacedBy(16.dp),
+Index: app/src/main/java/com/example/a1234567889/ui/screens/ProfileScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/screens/ProfileScreen.kt b/app/src/main/java/com/example/a1234567889/ui/screens/ProfileScreen.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/screens/ProfileScreen.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/screens/ProfileScreen.kt	(date 1783695413331)
+@@ -276,11 +276,10 @@
+                         )
+                     }
+                     Spacer(modifier = Modifier.height(8.dp))
+-                    val gridMaxHeight = if (previewItems.size > 4) 400.dp else 220.dp
+                     LazyVerticalGrid(
+-                        columns = GridCells.Adaptive(minSize = 100.dp),
++                        columns = GridCells.Adaptive(100.dp),
+                         modifier = Modifier
+-                            .heightIn(max = gridMaxHeight)
++                            .heightIn(max = 400.dp)
+                             .fillMaxWidth(),
+                         contentPadding = PaddingValues(4.dp)
+                     ) {
+Index: app/src/main/java/com/example/a1234567889/ui/screens/SettingsScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/screens/SettingsScreen.kt b/app/src/main/java/com/example/a1234567889/ui/screens/SettingsScreen.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/screens/SettingsScreen.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/screens/SettingsScreen.kt	(date 1783695413328)
+@@ -49,6 +49,15 @@
+     var selectedCategory by remember { mutableStateOf(SettingsCategory.LANGUAGE) }
+     var tempSettings by remember { mutableStateOf(currentSettings) }
+     var isSidebarExpanded by remember { mutableStateOf(false) }
++    
++    val sidebarWidth by animateDpAsState(
++        targetValue = if (isSidebarExpanded) 280.dp else 0.dp,
++        label = "SidebarWidth"
++    )
++    val arrowRotation by animateFloatAsState(
++        targetValue = if (isSidebarExpanded) 180f else 0f,
++        label = "ArrowRotation"
++    )
+ 
+     Scaffold(
+         topBar = {
+@@ -73,114 +82,97 @@
+             )
+         }
+     ) { padding ->
+-    BoxWithConstraints(
+-        modifier = Modifier
+-            .padding(padding)
+-            .fillMaxSize()
+-    ) {
+-        val maxSidebarWidth = minOf(280.dp, maxWidth * 0.8f)
+-        val sidebarWidth by animateDpAsState(
+-            targetValue = if (isSidebarExpanded) maxSidebarWidth else 0.dp,
+-            label = "SidebarWidth"
+-        )
+-        val arrowRotation by animateFloatAsState(
+-            targetValue = if (isSidebarExpanded) 180f else 0f,
+-            label = "ArrowRotation"
+-        )
+-        val contentPadding = if (maxWidth < 400.dp) 16.dp else 24.dp
+-
+-        Row(modifier = Modifier.fillMaxSize()) {
+-            // Sidebar
+-            Surface(
+-                tonalElevation = 1.dp,
+-                modifier = Modifier
+-                    .width(sidebarWidth)
+-                    .fillMaxHeight()
+-                    .pointerInput(Unit) {
+-                        awaitPointerEventScope {
+-                            while (true) {
+-                                val event = awaitPointerEvent()
+-                                if (event.type == PointerEventType.Exit) {
+-                                    isSidebarExpanded = false
+-                                }
+-                            }
+-                        }
+-                    }
+-            ) {
+-                if (sidebarWidth > 100.dp) { // Show content only when expanded
+-                    Column(
+-                        modifier = Modifier
+-                            .fillMaxSize()
+-                            .verticalScroll(rememberScrollState())
+-                            .padding(12.dp)
+-                    ) {
+-                        SettingsCategory.entries.forEach { category ->
+-                            NavigationDrawerItem(
+-                                label = {
+-                                    Text(
+-                                        text = category.title,
+-                                        style = MaterialTheme.typography.labelLarge,
+-                                        maxLines = 1,
+-                                        softWrap = false
+-                                    )
+-                                },
+-                                selected = selectedCategory == category,
+-                                onClick = { selectedCategory = category },
+-                                icon = { Icon(category.icon, contentDescription = null) },
++        Box(
++            modifier = Modifier
++                .padding(padding)
++                .fillMaxSize()
++        ) {
++            Row(modifier = Modifier.fillMaxSize()) {
++                // Sidebar
++                Surface(
++                    tonalElevation = 1.dp,
++                    modifier = Modifier
++                        .width(sidebarWidth)
++                        .fillMaxHeight()
++                        .pointerInput(Unit) {
++                            awaitPointerEventScope {
++                                while (true) {
++                                    val event = awaitPointerEvent()
++                                    if (event.type == PointerEventType.Exit) {
++                                        isSidebarExpanded = false
++                                    }
++                                }
++                            }
++                        }
++                ) {
++                    if (sidebarWidth > 100.dp) { // Show content only when expanded
++                        Column(
++                            modifier = Modifier
++                                .fillMaxSize()
++                                .verticalScroll(rememberScrollState())
++                                .padding(12.dp)
++                        ) {
++                            SettingsCategory.entries.forEach { category ->
++                                NavigationDrawerItem(
++                                    label = { 
++                                        Text(
++                                            text = category.title, 
++                                            style = MaterialTheme.typography.labelLarge,
++                                            maxLines = 1,
++                                            softWrap = false
++                                        ) 
++                                    },
++                                    selected = selectedCategory == category,
++                                    onClick = { selectedCategory = category },
++                                    icon = { Icon(category.icon, contentDescription = null) },
+                                 shape = RoundedCornerShape(12.dp),
+                                 modifier = Modifier.padding(vertical = 2.dp)
+                             )
+                         }
+-
+-                        Spacer(modifier = Modifier.weight(1f))
+-
+-                        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+-
+-                        TextButton(
+-                            onClick = { tempSettings = GameSettings() },
+-                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+-                            modifier = Modifier.fillMaxWidth()
+-                        ) {
+-                            Icon(Icons.Default.DeleteSweep, null)
+-                            Spacer(modifier = Modifier.width(8.dp))
+-                            Text("Сбросить всё", maxLines = 1, softWrap = false)
+-                        }
+-                    }
+-                }
+-            }
++                            
++                            Spacer(modifier = Modifier.weight(1f))
++                            
++                            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
++                            
++                            TextButton(
++                                onClick = { tempSettings = GameSettings() },
++                                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
++                                modifier = Modifier.fillMaxWidth()
++                            ) {
++                                Icon(Icons.Default.DeleteSweep, null)
++                                Spacer(modifier = Modifier.width(8.dp))
++                                Text("Сбросить всё", maxLines = 1, softWrap = false)
++                            }
++                        }
++                    }
++                }
+ 
+-            // Content
+-            Surface(
+-                modifier = Modifier
+-                    .weight(1f)
+-                    .fillMaxHeight()
+-            ) {
+-                Column(
+-                    modifier = Modifier
+-                        .fillMaxSize()
+-                        .verticalScroll(rememberScrollState())
+-                        .padding(contentPadding),
+-                    verticalArrangement = Arrangement.spacedBy(24.dp)
+-                ) {
+-                    when (selectedCategory) {
+-                        SettingsCategory.LANGUAGE -> LanguageSection(tempSettings) {
+-                            tempSettings = it
+-                        }
+-                        SettingsCategory.APPEARANCE -> AppearanceSection(tempSettings) {
+-                            tempSettings = it
+-                        }
+-                        SettingsCategory.SOUND -> SoundSection(tempSettings) { tempSettings = it }
+-                        SettingsCategory.GAME -> GameSection(tempSettings) { tempSettings = it }
+-                        SettingsCategory.PROFILE -> ProfileSection()
+-                        SettingsCategory.STATS -> StatsSection()
+-                        SettingsCategory.INTERFACE -> InterfaceSection(tempSettings) {
+-                            tempSettings = it
+-                        }
+-                        SettingsCategory.ABOUT -> AboutSection()
+-                    }
+-                }
+-            }
+-        }
++                // Content
++                Surface(
++                    modifier = Modifier
++                        .weight(1f)
++                        .fillMaxHeight()
++                ) {
++                    Column(
++                        modifier = Modifier
++                            .fillMaxSize()
++                            .verticalScroll(rememberScrollState())
++                            .padding(24.dp),
++                        verticalArrangement = Arrangement.spacedBy(24.dp)
++                    ) {
++                        when (selectedCategory) {
++                            SettingsCategory.LANGUAGE -> LanguageSection(tempSettings) { tempSettings = it }
++                            SettingsCategory.APPEARANCE -> AppearanceSection(tempSettings) { tempSettings = it }
++                            SettingsCategory.SOUND -> SoundSection(tempSettings) { tempSettings = it }
++                            SettingsCategory.GAME -> GameSection(tempSettings) { tempSettings = it }
++                            SettingsCategory.PROFILE -> ProfileSection()
++                            SettingsCategory.STATS -> StatsSection()
++                            SettingsCategory.INTERFACE -> InterfaceSection(tempSettings) { tempSettings = it }
++                            SettingsCategory.ABOUT -> AboutSection()
++                        }
++                    }
++                }
++            }
+ 
+             // Sidebar Handle (The arrow indicator)
+             Surface(
+Index: app/src/main/java/com/example/a1234567889/ui/screens/ImageEditorScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/screens/ImageEditorScreen.kt b/app/src/main/java/com/example/a1234567889/ui/screens/ImageEditorScreen.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/screens/ImageEditorScreen.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/screens/ImageEditorScreen.kt	(date 1783695413324)
+@@ -69,13 +69,6 @@
+                     }) {
+                         Icon(Icons.Default.Refresh, "Сброс")
+                     }
+-                    IconButton(onClick = { 
+-                        // Simplified "auto-fit" logic: reset but keep aspect ratio in mind?
+-                        // Actually just scale to cover if it doesn't already
+-                        scale = 1.1f 
+-                    }) {
+-                        Icon(Icons.Default.Fullscreen, "По размеру")
+-                    }
+                 }
+             }
+         }
+@@ -97,7 +90,7 @@
+                     .border(2.dp, Color.White, RoundedCornerShape(4.dp))
+                     .pointerInput(Unit) {
+                         detectTransformGestures { _, pan, zoom, _ ->
+-                            scale = (scale * zoom).coerceIn(0.5f, 5f)
++                            scale *= zoom
+                             offset += pan
+                         }
+                     }
+Index: app/src/main/java/com/example/a1234567889/ui/screens/ModeSelectionScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/screens/ModeSelectionScreen.kt b/app/src/main/java/com/example/a1234567889/ui/screens/ModeSelectionScreen.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/screens/ModeSelectionScreen.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/screens/ModeSelectionScreen.kt	(date 1783695413317)
+@@ -52,6 +52,9 @@
+     onModeSelected: (GameSettings, Boolean) -> Unit,
+     onSettingsChanged: (GameSettings) -> Unit,
+     onNavigateToProfile: () -> Unit,
++    onNavigateToLeaderboard: () -> Unit,
++    onNavigateToGallery: () -> Unit,
++    onNavigateToSettings: () -> Unit,
+     onSelectPicture: (boardSize: Int, currentUri: String?, onSelected: (String) -> Unit) -> Unit = { _, _, _ -> },
+     onOpenDrawer: () -> Unit = {}
+ ) {
+@@ -240,6 +243,27 @@
+                 }
+             )
+         },
++        bottomBar = {
++            BottomAppBar {
++                Row(
++                    modifier = Modifier.fillMaxWidth(),
++                    horizontalArrangement = Arrangement.SpaceEvenly
++                ) {
++                    IconButton(onClick = onNavigateToSettings) { Icon(Icons.Default.Settings, null) }
++                    IconButton(onClick = onNavigateToProfile) { 
++                        BadgedBox(badge = { if (user == null) Badge { Text("!") } }) {
++                            Icon(Icons.Default.AccountCircle, null) 
++                        }
++                    }
++                    IconButton(onClick = onNavigateToLeaderboard) { 
++                        BadgedBox(badge = { if (user == null) Badge { Icon(Icons.Default.Lock, null, modifier = Modifier.size(8.dp)) } }) {
++                            Icon(Icons.Default.BarChart, null) 
++                        }
++                    }
++                    IconButton(onClick = onNavigateToGallery) { Icon(Icons.Default.Collections, null) }
++                }
++            }
++        }
+     ) { padding ->
+         Column(
+             modifier = Modifier
+@@ -262,11 +286,11 @@
+             )
+ 
+             LazyVerticalGrid(
+-                columns = GridCells.Adaptive(minSize = 160.dp),
++                columns = GridCells.Fixed(2),
+                 contentPadding = PaddingValues(16.dp),
+                 horizontalArrangement = Arrangement.spacedBy(16.dp),
+                 verticalArrangement = Arrangement.spacedBy(16.dp),
+-                modifier = Modifier.weight(1f)
++                modifier = Modifier.fillMaxSize()
+             ) {
+                 items(modes) { modeItem ->
+                     val lockInfo = getLockInfo(modeItem.mode, actualClassicWins, user != null)
+@@ -460,37 +484,30 @@
+         }
+     }
+ 
+-    BoxWithConstraints {
+-        val dialogMaxHeight = maxHeight - 100.dp
+-
+-        AlertDialog(
+-            onDismissRequest = onDismiss,
+-            title = {
+-                Row(
+-                    modifier = Modifier.fillMaxWidth(),
+-                    horizontalArrangement = Arrangement.SpaceBetween,
+-                    verticalAlignment = Alignment.CenterVertically
+-                ) {
+-                    Text(modeItem.title)
+-                    IconButton(onClick = onShowRules) {
+-                        Icon(
+-                            Icons.AutoMirrored.Filled.HelpOutline,
+-                            "Правила",
+-                            tint = MaterialTheme.colorScheme.primary
+-                        )
+-                    }
+-                }
+-            },
+-            text = {
+-                Surface(
+-                    modifier = Modifier
+-                        .fillMaxWidth()
+-                        .heightIn(max = dialogMaxHeight)
+-                ) {
+-                    Column(
+-                        verticalArrangement = Arrangement.spacedBy(16.dp),
+-                        modifier = Modifier.verticalScroll(rememberScrollState())
+-                    ) {
++    AlertDialog(
++        onDismissRequest = onDismiss,
++        title = {
++            Row(
++                modifier = Modifier.fillMaxWidth(),
++                horizontalArrangement = Arrangement.SpaceBetween,
++                verticalAlignment = Alignment.CenterVertically
++            ) {
++                Text(modeItem.title)
++                IconButton(onClick = onShowRules) {
++                    Icon(Icons.AutoMirrored.Filled.HelpOutline, "Правила", tint = MaterialTheme.colorScheme.primary)
++                }
++            }
++        },
++        text = {
++            Surface(
++                modifier = Modifier
++                    .fillMaxWidth()
++                    .heightIn(max = 450.dp)
++            ) {
++                Column(
++                    verticalArrangement = Arrangement.spacedBy(16.dp),
++                    modifier = Modifier.verticalScroll(rememberScrollState())
++                ) {
+                     Text(modeItem.description, style = MaterialTheme.typography.bodyMedium)
+ 
+                     if (modeItem.mode != GameMode.ENDLESS) {
+@@ -1115,7 +1132,6 @@
+         )
+     }
+ }
+-}
+ 
+ 
+ @Composable
+@@ -1210,7 +1226,10 @@
+             onStopConfiguring = {},
+             onModeSelected = { _, _ -> },
+             onSettingsChanged = {},
+-            onNavigateToProfile = {}
++            onNavigateToProfile = {},
++            onNavigateToLeaderboard = {},
++            onNavigateToGallery = {},
++            onNavigateToSettings = {}
+         )
+     }
+ }
+Index: app/src/main/java/com/example/a1234567889/ui/components/PuzzleBoard.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/components/PuzzleBoard.kt b/app/src/main/java/com/example/a1234567889/ui/components/PuzzleBoard.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/components/PuzzleBoard.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/components/PuzzleBoard.kt	(date 1783695413313)
+@@ -5,8 +5,6 @@
+ import androidx.compose.animation.core.tween
+ import androidx.compose.foundation.background
+ import androidx.compose.foundation.clickable
+-import androidx.compose.foundation.gestures.detectDragGestures
+-import androidx.compose.ui.input.pointer.pointerInput
+ import androidx.compose.foundation.layout.*
+ import androidx.compose.foundation.shape.RoundedCornerShape
+ import androidx.compose.material3.MaterialTheme
+@@ -81,31 +79,6 @@
+             .padding(16.dp)
+             .background(boardBgColor, RoundedCornerShape(12.dp))
+             .padding(4.dp)
+-            .then(
+-                if (settings.controlMethod == ControlMethod.SWIPE && !isPaused) {
+-                    Modifier.pointerInput(Unit) {
+-                        detectDragGestures(
+-                            onDrag = { change, dragAmount ->
+-                                val threshold = 20f
+-                                if (Math.abs(dragAmount.x) > threshold || Math.abs(dragAmount.y) > threshold) {
+-                                    val emptyPos = board.findEmpty()
+-                                    val targetPos = if (Math.abs(dragAmount.x) > Math.abs(dragAmount.y)) {
+-                                        if (dragAmount.x > 0) Position(emptyPos.row, emptyPos.col - 1)
+-                                        else Position(emptyPos.row, emptyPos.col + 1)
+-                                    } else {
+-                                        if (dragAmount.y > 0) Position(emptyPos.row - 1, emptyPos.col)
+-                                        else Position(emptyPos.row + 1, emptyPos.col)
+-                                    }
+-                                    if (targetPos.row in 0 until board.size && targetPos.col in 0 until board.size) {
+-                                        onTileClick(targetPos)
+-                                        change.consume()
+-                                    }
+-                                }
+-                            }
+-                        )
+-                    }
+-                } else Modifier
+-            )
+     ) {
+         val size = board.size
+         val tileSize = maxWidth / size
+Index: app/src/main/java/com/example/a1234567889/ui/components/AppDrawerContent.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/ui/components/AppDrawerContent.kt b/app/src/main/java/com/example/a1234567889/ui/components/AppDrawerContent.kt
+--- a/app/src/main/java/com/example/a1234567889/ui/components/AppDrawerContent.kt
++++ b/app/src/main/java/com/example/a1234567889/ui/components/AppDrawerContent.kt	(date 1783695413306)
+@@ -6,9 +6,11 @@
+ import androidx.compose.material.icons.filled.AccountCircle
+ import androidx.compose.material.icons.filled.BarChart
+ import androidx.compose.material.icons.filled.Calculate
++import androidx.compose.material.icons.filled.Chat
+ import androidx.compose.material.icons.filled.EmojiEvents
+ import androidx.compose.material.icons.filled.Home
+ import androidx.compose.material.icons.filled.Info
++import androidx.compose.material.icons.filled.LocationOn
+ import androidx.compose.material.icons.filled.People
+ import androidx.compose.material.icons.filled.Photo
+ import androidx.compose.material.icons.filled.Settings
+@@ -46,6 +48,8 @@
+         DrawerEntry("leaderboard", "Рейтинг", Icons.Default.BarChart),
+         DrawerEntry("game_history", "История партий", Icons.Default.BarChart),
+         DrawerEntry("score_calculator", "Калькулятор результата", Icons.Default.Calculate),
++        DrawerEntry("location", "Местоположение", Icons.Default.LocationOn),
++        DrawerEntry("chat", "Чат", Icons.Default.Chat),
+         DrawerEntry("settings", "Настройки", Icons.Default.Settings),
+         DrawerEntry("about", "О приложении", Icons.Default.Info)
+     )
+Index: app/src/main/java/com/example/a1234567889/logic/ImageCropUtil.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/logic/ImageCropUtil.kt b/app/src/main/java/com/example/a1234567889/logic/ImageCropUtil.kt
+--- a/app/src/main/java/com/example/a1234567889/logic/ImageCropUtil.kt
++++ b/app/src/main/java/com/example/a1234567889/logic/ImageCropUtil.kt	(date 1783695413301)
+@@ -38,29 +38,27 @@
+             val bitmap = loadBitmapRespectingExif(context, sourceUri) ?: return@withContext null
+             val bw = bitmap.width.toFloat()
+             val bh = bitmap.height.toFloat()
++            val viewport = viewportPx.takeIf { it > 0 }?.toFloat() ?: maxOf(bw, bh)
+ 
+-            // ContentScale.Crop simulation for fitting non-square photos into the square output:
+-            // We want to fill the OUTPUT_SIZE x OUTPUT_SIZE square.
+-            val scaleX = OUTPUT_SIZE / bw
+-            val scaleY = OUTPUT_SIZE / bh
+-            val coverScale = maxOf(scaleX, scaleY)
+-            
+-            val dx0 = (OUTPUT_SIZE - bw * coverScale) / 2f
+-            val dy0 = (OUTPUT_SIZE - bh * coverScale) / 2f
++            // ContentScale.Fit: how the bitmap was scaled/centered into the square viewport.
++            val fitScale = minOf(viewport / bw, viewport / bh)
++            val dx0 = (viewport - bw * fitScale) / 2f
++            val dy0 = (viewport - bh * fitScale) / 2f
+ 
++            // Mirrors the order of transforms applied in ImageEditorScreen's graphicsLayer:
++            // pivot at the viewport center, then user scale -> rotate -> translate.
+             val matrix = Matrix()
+-            matrix.postScale(coverScale, coverScale)
++            matrix.postScale(fitScale, fitScale)
+             matrix.postTranslate(dx0, dy0)
+-
+-            // User transforms from ImageEditorScreen (applied relative to viewport center)
+-            val viewport = viewportPx.takeIf { it > 0 }?.toFloat() ?: OUTPUT_SIZE.toFloat()
+-            val userScaleFactor = OUTPUT_SIZE / viewport
+-            
+-            matrix.postTranslate(-OUTPUT_SIZE / 2f, -OUTPUT_SIZE / 2f)
++            matrix.postTranslate(-viewport / 2f, -viewport / 2f)
+             matrix.postScale(scale.coerceAtLeast(0.01f), scale.coerceAtLeast(0.01f))
+             matrix.postRotate(rotationDegrees)
+-            matrix.postTranslate(offsetX * userScaleFactor, offsetY * userScaleFactor)
+-            matrix.postTranslate(OUTPUT_SIZE / 2f, OUTPUT_SIZE / 2f)
++            matrix.postTranslate(offsetX, offsetY)
++            matrix.postTranslate(viewport / 2f, viewport / 2f)
++
++            // Re-scale from the on-screen viewport size to our fixed output resolution.
++            val outScale = OUTPUT_SIZE / viewport
++            matrix.postScale(outScale, outScale)
+ 
+             val output = Bitmap.createBitmap(OUTPUT_SIZE, OUTPUT_SIZE, Bitmap.Config.ARGB_8888)
+             val canvas = Canvas(output)
+Index: app/src/main/java/com/example/a1234567889/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/a1234567889/MainActivity.kt b/app/src/main/java/com/example/a1234567889/MainActivity.kt
+--- a/app/src/main/java/com/example/a1234567889/MainActivity.kt
++++ b/app/src/main/java/com/example/a1234567889/MainActivity.kt	(date 1783695413294)
+@@ -11,8 +11,6 @@
+ import androidx.activity.enableEdgeToEdge
+ import androidx.compose.foundation.isSystemInDarkTheme
+ import androidx.compose.foundation.layout.*
+-import androidx.compose.foundation.rememberScrollState
+-import androidx.compose.foundation.verticalScroll
+ import androidx.compose.material.icons.Icons
+ import androidx.compose.material.icons.automirrored.filled.ArrowBack
+ import androidx.compose.material.icons.filled.Settings
+@@ -124,8 +122,15 @@
+                                     isLoggedIn = user != null,
+                                     onItemSelected = { route ->
+                                         drawerScope.launch { drawerState.close() }
+-                                        navController.navigate(route) {
+-                                            launchSingleTop = true
++                                        when (route) {
++                                            "chat" -> {
++                                                context.startActivity(
++                                                    android.content.Intent(context, com.example.a1234567889.chat.ChatActivity::class.java)
++                                                )
++                                            }
++                                            else -> navController.navigate(route) {
++                                                launchSingleTop = true
++                                            }
+                                         }
+                                     }
+                                 )
+@@ -175,6 +180,16 @@
+                                         },
+                                         onSettingsChanged = { viewModel.updateSettings(it) },
+                                         onNavigateToProfile = { navController.navigate("profile") },
++                                        onNavigateToLeaderboard = {
++                                            if (user != null) {
++                                                navController.navigate("leaderboard")
++                                            } else {
++                                                android.widget.Toast.makeText(navController.context, "Войдите в аккаунт, чтобы видеть рейтинг", android.widget.Toast.LENGTH_SHORT).show()
++                                                navController.navigate("profile")
++                                            }
++                                        },
++                                        onNavigateToGallery = { navController.navigate("gallery") },
++                                        onNavigateToSettings = { navController.navigate("settings") },
+                                         onSelectPicture = { boardSize, currentUri, callback ->
+                                             pendingBoardSize = boardSize
+                                             pendingImageCallback = callback
+@@ -396,6 +411,9 @@
+                                         onBack = { navController.popBackStack() }
+                                     )
+                                 }
++                                composable("location") {
++                                    LocationScreen(onNavigateBack = { navController.popBackStack() })
++                                }
+                                 composable("game_history") {
+                                     GameHistoryScreen(onNavigateBack = { navController.popBackStack() })
+                                 }
+@@ -522,55 +540,55 @@
+             )
+         }
+     ) { innerPadding ->
+-    Column(modifier = Modifier.padding(innerPadding).verticalScroll(rememberScrollState())) {
+-        TopStatsPanel(
+-            moves = uiState.moves,
+-            seconds = uiState.timeSeconds,
+-            timeLeftSeconds = uiState.timeLeftSeconds,
+-            movesLeft = uiState.movesLeft,
+-            lives = if (uiState.settings.mode == GameMode.ENDLESS) uiState.lives else null,
+-            currentLevel = if (uiState.settings.mode == GameMode.ENDLESS || (uiState.settings.mode == GameMode.TIME_ATTACK && uiState.settings.isSurvivalMode)) uiState.currentLevel else null,
+-            progressPercent = if (uiState.settings.mode == GameMode.COLORS) {
+-                val total = uiState.board.size * uiState.board.size
+-                (uiState.correctTiles.toFloat() / total.toFloat() * 100).toInt()
+-            } else null,
+-            showCounters = uiState.settings.showCounters
+-        )
+-        
+-        PuzzleBoard(
+-            board = uiState.board,
+-            onTileClick = { viewModel.onTileClicked(it) },
+-            settings = uiState.settings,
+-            isPaused = uiState.isPaused || !uiState.isMatchStarted,
+-            modifier = Modifier.fillMaxWidth()
+-        )
++        Column(modifier = Modifier.padding(innerPadding)) {
++            TopStatsPanel(
++                moves = uiState.moves,
++                seconds = uiState.timeSeconds,
++                timeLeftSeconds = uiState.timeLeftSeconds,
++                movesLeft = uiState.movesLeft,
++                lives = if (uiState.settings.mode == GameMode.ENDLESS) uiState.lives else null,
++                currentLevel = if (uiState.settings.mode == GameMode.ENDLESS || (uiState.settings.mode == GameMode.TIME_ATTACK && uiState.settings.isSurvivalMode)) uiState.currentLevel else null,
++                progressPercent = if (uiState.settings.mode == GameMode.COLORS) {
++                    val total = uiState.board.size * uiState.board.size
++                    (uiState.correctTiles.toFloat() / total.toFloat() * 100).toInt()
++                } else null,
++                showCounters = uiState.settings.showCounters
++            )
++            
++            PuzzleBoard(
++                board = uiState.board,
++                onTileClick = { viewModel.onTileClicked(it) },
++                settings = uiState.settings,
++                isPaused = uiState.isPaused || !uiState.isMatchStarted,
++                modifier = Modifier.weight(1f)
++            )
+ 
+-        if (uiState.settings.mode == GameMode.COMPETITION && !uiState.isPaused) {
+-            OpponentStatusPanel(
+-                progress = uiState.opponentProgress,
+-                nickname = uiState.opponentNickname,
+-                isPublic = uiState.settings.isPublicMatch,
+-                isTeam = uiState.settings.competitionType == CompetitionType.TEAM_2V2,
+-                partnerProgress = uiState.teamPartnerProgress
+-            )
+-        }
++            if (uiState.settings.mode == GameMode.COMPETITION && !uiState.isPaused) {
++                OpponentStatusPanel(
++                    progress = uiState.opponentProgress,
++                    nickname = uiState.opponentNickname,
++                    isPublic = uiState.settings.isPublicMatch,
++                    isTeam = uiState.settings.competitionType == CompetitionType.TEAM_2V2,
++                    partnerProgress = uiState.teamPartnerProgress
++                )
++            }
+ 
+-        if (uiState.settings.usePowerUps && uiState.settings.mode == GameMode.COMPETITION) {
+-            PowerUpPanel(
+-                available = uiState.availablePowerUps,
+-                active = uiState.activePowerUps,
+-                onUse = { viewModel.usePowerUp(it) }
+-            )
+-        }
++            if (uiState.settings.usePowerUps && uiState.settings.mode == GameMode.COMPETITION) {
++                PowerUpPanel(
++                    available = uiState.availablePowerUps,
++                    active = uiState.activePowerUps,
++                    onUse = { viewModel.usePowerUp(it) }
++                )
++            }
+ 
+-        if (uiState.settings.isExperimentMode && !uiState.isPaused) {
+-            ExperimentStatsPanel(
+-                inversions = uiState.inversions,
+-                optimalMoves = uiState.optimalMoves ?: 0,
+-                avgTime = uiState.averageMoveTime
+-            )
+-        }
+-    }
++            if (uiState.settings.isExperimentMode && !uiState.isPaused) {
++                ExperimentStatsPanel(
++                    inversions = uiState.inversions,
++                    optimalMoves = uiState.optimalMoves ?: 0,
++                    avgTime = uiState.averageMoveTime
++                )
++            }
++        }
+         
+         if (uiState.settings.mode == GameMode.COMPETITION && !uiState.isMatchStarted) {
+             MatchCountdownOverlay(countdown = uiState.matchCountdown ?: 0)
+Index: .idea/planningMode.xml
+===================================================================
+diff --git a/.idea/planningMode.xml b/.idea/planningMode.xml
+deleted file mode 100644
+--- a/.idea/planningMode.xml
++++ /dev/null
+@@ -1,11 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="PlanningModeManager">
+-    <option name="approvalStates">
+-      <map>
+-        <entry key="20260710-161708-d71c25f9-bc7d-48d1-a76c-b817ddac7bed" value="true" />
+-        <entry key="20260710-171617-fde78b43-0ddc-4452-81fe-4ce41bf4b406" value="true" />
+-      </map>
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
