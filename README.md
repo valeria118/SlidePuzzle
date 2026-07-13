@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/9aab92b1-b1e0-4853-9b58-2549822ad822
+
 # 🧩 SlidePuzzle — Пятнашки
 [Смотреть демо](./SlidePuzzle.mp4)
 
