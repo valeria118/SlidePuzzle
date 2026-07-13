@@ -1,7 +1,8 @@
 <div align="center">
   <video src="https://github.com/user-attachments/assets/9aab92b1-b1e0-4853-9b58-2549822ad822" width="300" controls></video>
 </div>
-# 🧩 SlidePuzzle — Пятнашки
+
+## 🧩 SlidePuzzle — Пятнашки
 
 Мобильная игра-головоломка "Пятнашки" для Android с расширенным функционалом: коллекционные карточки, соревновательные режимы, система друзей и ИИ-соперник.
 
